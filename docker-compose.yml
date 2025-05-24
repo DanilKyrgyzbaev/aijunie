@@ -1,4 +1,4 @@
-version: '3.8'
+# Docker Compose configuration for AI Junie project
 
 services:
   backend:
@@ -19,6 +19,28 @@ services:
     networks:
       - ktor-network
 
+  android-builder:
+    container_name: android-builder
+    build:
+      context: .
+      dockerfile: composeApp/Dockerfile.android
+    volumes:
+      - .:/app
+      - gradle-cache:/root/.gradle
+    networks:
+      - ktor-network
+
+#  ios-framework-builder:
+#    container_name: ios-framework-builder
+#    build:
+#      context: .
+#      dockerfile: iosApp/Dockerfile.ios
+#    volumes:
+#      - .:/app
+#      - gradle-cache:/root/.gradle
+#    networks:
+#      - ktor-network
+
   db:
     image: postgres:15
     container_name: ktor-db
@@ -36,6 +58,7 @@ services:
 
 volumes:
   postgres_data:
+  gradle-cache:
 
 networks:
   ktor-network:

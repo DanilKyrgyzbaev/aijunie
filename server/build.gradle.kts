@@ -27,7 +27,7 @@ tasks.processResources {
 
 
 dependencies {
-//    implementation(projects.shared)
+    implementation(projects.shared)
 
     // Logging
     implementation(libs.logback)

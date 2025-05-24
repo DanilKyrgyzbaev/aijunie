@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: ktor-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - JWT_SECRET=my-secret-key
+      - DATABASE_URL=jdbc:postgresql://db:5432/ktor_db
+      - DATABASE_USERNAME=ktor_user
+      - DATABASE_PASSWORD=ktor_pass
+    networks:
+      - ktor-network
+
+  db:
+    image: postgres:15
+    container_name: ktor-db
+    restart: always
+    environment:
+      POSTGRES_DB: ktor_db
+      POSTGRES_USER: ktor_user
+      POSTGRES_PASSWORD: ktor_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ktor-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ktor-network:

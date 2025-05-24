@@ -1,15 +1,9 @@
-rootProject.name = "git add README.md"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+rootProject.name = "AIJunie"
+//enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
-        google {
-            mavenContent {
-                includeGroupAndSubgroups("androidx")
-                includeGroupAndSubgroups("com.android")
-                includeGroupAndSubgroups("com.google")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -17,13 +11,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        google {
-            mavenContent {
-                includeGroupAndSubgroups("androidx")
-                includeGroupAndSubgroups("com.android")
-                includeGroupAndSubgroups("com.google")
-            }
-        }
+        google()
         mavenCentral()
     }
 }
@@ -32,6 +20,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":composeApp")
+//include(":composeApp")
 include(":server")
 include(":shared")

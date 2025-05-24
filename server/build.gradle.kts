@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
-    kotlin("plugin.serialization") version "2.1.21"
+    kotlin("plugin.serialization") version "1.9.21"
     application
 }
 
@@ -27,7 +27,7 @@ tasks.processResources {
 
 
 dependencies {
-    implementation(projects.shared)
+//    implementation(projects.shared)
 
     // Logging
     implementation(libs.logback)
@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
 
     // Koin Dependency Injection
+    implementation(libs.koin.core)
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
 

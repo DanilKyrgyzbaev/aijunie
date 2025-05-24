@@ -35,14 +35,27 @@ fun Application.module() {
 
     // Configure database
     try {
-        val dbConfig = environment.config.config("database")
-        val jdbcUrl = dbConfig.property("jdbcUrl").getString()
-        val driverClassName = dbConfig.property("driverClassName").getString()
-        val username = dbConfig.property("username").getString()
-        val password = dbConfig.property("password").getString()
+        // First try to read from environment variables
+        val jdbcUrl = System.getenv("DATABASE_URL")
+        val driverClassName = "org.postgresql.Driver" // Assuming PostgreSQL for Docker
+        val username = System.getenv("DATABASE_USERNAME")
+        val password = System.getenv("DATABASE_PASSWORD")
 
-        DatabaseConfig.init(jdbcUrl, driverClassName, username, password)
+        if (jdbcUrl != null && username != null && password != null) {
+            // Use environment variables if available
+            DatabaseConfig.init(jdbcUrl, driverClassName, username, password)
+        } else {
+            // Fall back to application.conf
+            val dbConfig = environment.config.config("database")
+            val configJdbcUrl = dbConfig.property("jdbcUrl").getString()
+            val configDriverClassName = dbConfig.property("driverClassName").getString()
+            val configUsername = dbConfig.property("username").getString()
+            val configPassword = dbConfig.property("password").getString()
+
+            DatabaseConfig.init(configJdbcUrl, configDriverClassName, configUsername, configPassword)
+        }
     } catch (e: Exception) {
+        // Fall back to H2 in-memory database
         val jdbcUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
         val driverClassName = "org.h2.Driver"
         val username = "sa"
